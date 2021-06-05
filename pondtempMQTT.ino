@@ -156,6 +156,8 @@ boolean initWifi(int tries = 2, int waitTime = 2) {
             delay(1000);
         }
         if (WiFi.status() == WL_CONNECTED) {
+            WiFi.setAutoReconnect(true);
+            WiFi.persistent(true);
             break;
         }
     }
@@ -482,6 +484,7 @@ void loop() {
         // MQTT status & init if dropped
         if(!mqttClient.connected()) {
             Serial.println(F("Reconnecting MQTT."));
+            WiFi.disconnect();
             if(initMQTT()) {
                     Serial.println(F("MQTT connected."));
             }
